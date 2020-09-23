@@ -1,0 +1,17 @@
+﻿@model IEnumerable<IdentityRole>
+@{ Layout = null;}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Succes</title>
+</head>
+<body>
+    <div>
+        @foreach(IdentityRole role in Model)
+        {
+            <h1>@role</h1>
+        }
+    </div>
+</body>
+</html>
