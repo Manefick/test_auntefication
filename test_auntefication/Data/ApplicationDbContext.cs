@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using test_auntefication;
+using test_auntefication.Models;
 
 namespace test_auntefication.Data
 {
