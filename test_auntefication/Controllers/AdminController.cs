@@ -12,13 +12,14 @@ namespace test_auntefication.Controllers
 {
     public class AdminController : Controller
     {
-        private UserManager<IdentityUser> userManager;
+        private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
-        public AdminController(UserManager<IdentityUser> usrMng, RoleManager<IdentityRole> roleMng)
+        public AdminController(UserManager<AppUser> usrMng, RoleManager<IdentityRole> roleMng)
         {
             userManager = usrMng;
             roleManager = roleMng;
         }
+        public ViewResult Registration()=>View();
         public IActionResult Index()
         {
             return View(userManager.Users);
@@ -31,7 +32,7 @@ namespace test_auntefication.Controllers
         public async Task<IActionResult> Edit( string email)
         {
             string name = User.Identity.Name;
-            IdentityUser user = await userManager.FindByNameAsync(name);
+            AppUser user = await userManager.FindByNameAsync(name);
             if (user != null)
             {
                 user.Email = email;
