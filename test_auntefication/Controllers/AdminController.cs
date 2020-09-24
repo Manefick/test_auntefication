@@ -19,30 +19,30 @@ namespace test_auntefication.Controllers
             userManager = usrMng;
             roleManager = roleMng;
         }
-        public ViewResult Registration()=>View();
+        [Authorize]
         public IActionResult Index()
         {
             return View(userManager.Users);
         }
         public ViewResult ListRole() => View(roleManager.Roles.ToList());
-        public ViewResult Edit() => View();
+        //public ViewResult Edit() => View();
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Edit( string email)
-        {
-            string name = User.Identity.Name;
-            AppUser user = await userManager.FindByNameAsync(name);
-            if (user != null)
-            {
-                user.Email = email;
-                IdentityResult result = await userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-            }
-            return View("Error", "Erorr");
-        }
+        //[Authorize]
+        //[HttpPost]
+        //public async Task<IActionResult> Edit( string email)
+        //{
+        //    string name = User.Identity.Name;
+        //    AppUser user = await userManager.FindByNameAsync(name);
+        //    if (user != null)
+        //    {
+        //        user.Email = email;
+        //        IdentityResult result = await userManager.UpdateAsync(user);
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
+        //    return View("Error", "Erorr");
+        //}
     }
 }
