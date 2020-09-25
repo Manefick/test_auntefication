@@ -1,8 +1,8 @@
-﻿@model UserViewModel
+﻿@model UserViewModelTwo
 
-<div class="bg-primary m-1 p-1 text-white"><h4>Registration</h4></div>
+<div class="bg-primary m-1 p-1 text-white"><h4>Registr user</h4></div>
 <div asp-validation-summary=" All" class="text-danger"></div>
-<form asp-action="Registration" method="post">
+<form asp-action="RegisterUser" method="post">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />

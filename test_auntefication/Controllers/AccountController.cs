@@ -112,15 +112,15 @@ namespace test_auntefication.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ViewResult RegisterUser()
         {
             return View();
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterUser(UserViewModel model)
+        public async Task<IActionResult> RegisterUser(UserViewModelTwo model)
         {
             if (ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace test_auntefication.Controllers
                     IdentityResult resultRole = await userManager.AddToRoleAsync(user, "User");
                     if (resultRole.Succeeded)
                     {
-                        return RedirectToAction("Home", "Index");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -156,7 +156,7 @@ namespace test_auntefication.Controllers
             }
             return View(model);
         }
-
+        [HttpGet]
         [Authorize(Roles ="Admin")]
         public ViewResult Delete()
         {
@@ -174,7 +174,7 @@ namespace test_auntefication.Controllers
                 IdentityResult result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Home", "Index");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

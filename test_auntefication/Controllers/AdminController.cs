@@ -22,27 +22,24 @@ namespace test_auntefication.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            Dictionary<string, Dictionary<string,string>> InfoUser = new Dictionary<string, Dictionary<string,string>>();
-            string[] RoleList = new string[] { "Admin" };
-            foreach (var role in RoleList)
+            Dictionary<string, Dictionary<string, string>> InfoUser = new Dictionary<string, Dictionary<string, string>>();
+            foreach (var user in userManager.Users)
             {
-                foreach (var user in userManager.Users)
+                if (await userManager.IsInRoleAsync(user, "Admin"))
                 {
-                    if(await userManager.IsInRoleAsync(user, role))
-                    {
-                        InfoUser[user.Id] = new Dictionary<string, string> {
-                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", role } };
-                    }
-                    else
-                    {
-                        InfoUser[user.Id] = new Dictionary<string, string> {
-                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "Null" } };
-                    }
+                    InfoUser[user.Id] = new Dictionary<string, string> {
+                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "Admin" } };
+                }
+                else if(await userManager.IsInRoleAsync(user, "User"))
+                {
+                    InfoUser[user.Id] = new Dictionary<string, string> {
+                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "User" } };
                 }
             }
+
             return View(InfoUser);
         }
         public ViewResult ListRole() => View(roleManager.Roles.ToList());
-        
+
     }
 }
