@@ -20,6 +20,11 @@ namespace test_auntefication.Controllers
             roleManager = roleM;
             signInManager = signIn;
         }
+        [AllowAnonymous]
+        public ViewResult Index()
+        {
+            return View();
+        }
 
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
@@ -34,15 +39,19 @@ namespace test_auntefication.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult result = 
-                    await signInManager.PasswordSignInAsync(details.Email, details.Password, false,false);
-                if (result.Succeeded)
+                AppUser resultUser = await userManager.FindByEmailAsync(details.Email);
+                if (resultUser != null)
                 {
-                    return Redirect(returnUrl ?? "/");
-                }
-                else
-                {
-                    ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
+                    Microsoft.AspNetCore.Identity.SignInResult result =
+                        await signInManager.PasswordSignInAsync(resultUser, details.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return Redirect(returnUrl ?? "/");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
+                    }
                 }
             }
             return View(details);
@@ -64,10 +73,26 @@ namespace test_auntefication.Controllers
             {
                 AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
+                if(await roleManager.RoleExistsAsync("Admin") == false)
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return Redirect(returnUrl ?? "/");
+                    IdentityResult resultRole = await userManager.AddToRoleAsync(user, "Admin");
+                    if (resultRole.Succeeded)
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: false);
+                        return Redirect(returnUrl ?? "/");
+                    }
+                    else
+                    {
+                        foreach(IdentityError errors in resultRole.Errors)
+                        {
+                            ModelState.AddModelError("", errors.Description);
+                        }
+                    }
+                    
                 }
                 else
                 {
@@ -79,6 +104,13 @@ namespace test_auntefication.Controllers
             }
             return View(model);
 
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
     }

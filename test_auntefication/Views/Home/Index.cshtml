@@ -7,6 +7,10 @@
     <title>Succes</title>
 </head>
 <body>
-   <h2>Hello World</h2>
+    <h2>Hello World</h2>
+    <a asp-controller="Account" asp-action="Registration" class="btn btn-primary">Registration</a>
+    <form method="post" asp-controller="Account" asp-action="LogOff">
+        <input type="submit" value="Выход" />
+    </form>
 </body>
 </html>

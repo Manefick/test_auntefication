@@ -20,29 +20,29 @@ namespace test_auntefication.Controllers
             roleManager = roleMng;
         }
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(userManager.Users);
+            Dictionary<string, Dictionary<string,string>> InfoUser = new Dictionary<string, Dictionary<string,string>>();
+            string[] RoleList = new string[] { "Admin" };
+            foreach (var role in RoleList)
+            {
+                foreach (var user in userManager.Users)
+                {
+                    if(await userManager.IsInRoleAsync(user, role))
+                    {
+                        InfoUser[user.Id] = new Dictionary<string, string> {
+                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", role } };
+                    }
+                    else
+                    {
+                        InfoUser[user.Id] = new Dictionary<string, string> {
+                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "Null" } };
+                    }
+                }
+            }
+            return View(InfoUser);
         }
         public ViewResult ListRole() => View(roleManager.Roles.ToList());
-        //public ViewResult Edit() => View();
-
-        //[Authorize]
-        //[HttpPost]
-        //public async Task<IActionResult> Edit( string email)
-        //{
-        //    string name = User.Identity.Name;
-        //    AppUser user = await userManager.FindByNameAsync(name);
-        //    if (user != null)
-        //    {
-        //        user.Email = email;
-        //        IdentityResult result = await userManager.UpdateAsync(user);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    return View("Error", "Erorr");
-        //}
+        
     }
 }
