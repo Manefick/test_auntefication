@@ -66,9 +66,8 @@ namespace test_auntefication.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registration(UserViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Registration(UserViewModel model)
         {
-            ViewBag.returnUrl = returnUrl;
             if (ModelState.IsValid)
             {
                 AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
@@ -83,7 +82,7 @@ namespace test_auntefication.Controllers
                     if (resultRole.Succeeded)
                     {
                         await signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect(returnUrl ?? "/");
+                        return RedirectToAction("RegisterUser");
                     }
                     else
                     {
@@ -111,6 +110,83 @@ namespace test_auntefication.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public ViewResult RegisterUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterUser(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
+                IdentityResult result = await userManager.CreateAsync(user, model.Password);
+                if (await roleManager.RoleExistsAsync("User") == false)
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+                if (result.Succeeded)
+                {
+                    IdentityResult resultRole = await userManager.AddToRoleAsync(user, "User");
+                    if (resultRole.Succeeded)
+                    {
+                        return RedirectToAction("Home", "Index");
+                    }
+                    else
+                    {
+                        foreach (IdentityError errors in resultRole.Errors)
+                        {
+                            ModelState.AddModelError("", errors.Description);
+                        }
+                    }
+
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles ="Admin")]
+        public ViewResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(DeleteModel model)
+        {
+            AppUser user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Home", "Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                        ModelState.AddModelError("", error.Description);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "User Not Found");
+            }
+            return View();
         }
 
     }

@@ -24,4 +24,9 @@ namespace test_auntefication.Models
         [UIHint("password")]
         public string Password { get; set; }
     }
+    public class DeleteModel
+    {
+        [Required]
+        public string Email { get; set; }
+    }
 }
