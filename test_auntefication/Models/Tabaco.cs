@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace test_auntefication.Models
 {
-    public interface ITabacosRepository
+    public class Tabaco
     {
-        IQueryable<Tabaco> Tabacos { get; }
-        void AddTabaco(Tabaco tb);
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

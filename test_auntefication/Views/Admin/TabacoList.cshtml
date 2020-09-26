@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Tabacos> 
+﻿@model IEnumerable<Tabaco> 
 @{ Layout = null;}
 <!DOCTYPE html>
 <html>
@@ -7,9 +7,9 @@
     <title>List of tabaco</title>
 </head>
 <body>
-    @foreach(Tabacos tabacos in Model)
+    @foreach(Tabaco tabaco in Model)
     {
-        <p>@tabacos.Name</p>
+        <p>@tabaco.Name</p>
     }
 </body>
 </html>

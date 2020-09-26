@@ -48,7 +48,7 @@ namespace test_auntefication.Controllers
         [Authorize(Roles ="Admin")]
         public IActionResult AddTabacos(string Name)
         {
-            Tabacos taba = new Tabacos { Name = Name };
+            Tabaco taba = new Tabaco { Name = Name };
             tabacosRepository.AddTabaco(taba);
             return View("TabacoList", tabacosRepository.Tabacos);
         }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace test_auntefication.Models
 {
-    public class Tabacos
+    public interface ICompanyRepository
     {
-        public int TabacosID { get; set; }
-        public string Name { get; set; }
+        IQueryable<Company> Company { get; }
     }
 }

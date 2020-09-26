@@ -12,6 +12,7 @@ namespace test_auntefication.Data
     public class ProductsDbContext: DbContext
     {
         public ProductsDbContext(DbContextOptions<ProductsDbContext> options) : base(options) { }
-        public DbSet<Tabacos> Tabacos { get; set; }
+        public DbSet<Tabaco> Tabacos { get; set; }
+        public DbSet<Company> Company { get; set; }
     }
 }

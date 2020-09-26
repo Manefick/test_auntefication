@@ -39,7 +39,7 @@ namespace test_auntefication
             services.AddDbContext<ProductsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["Products:ConnectionStrings"]));
-            services.AddTransient<ITabacosRepository, EFTabacosRepository>();
+            services.AddTransient<ITabacosRepository, TabacoRepository>();
 
             services.AddIdentity<AppUser,IdentityRole>(opts =>
             {
