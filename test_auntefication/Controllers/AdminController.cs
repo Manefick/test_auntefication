@@ -14,10 +14,12 @@ namespace test_auntefication.Controllers
     {
         private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
-        public AdminController(UserManager<AppUser> usrMng, RoleManager<IdentityRole> roleMng)
+        private ITabacosRepository tabacosRepository; 
+        public AdminController(UserManager<AppUser> usrMng, RoleManager<IdentityRole> roleMng, ITabacosRepository tabacos)
         {
             userManager = usrMng;
             roleManager = roleMng;
+            tabacosRepository = tabacos;
         }
         [Authorize]
         public async Task<IActionResult> Index()
@@ -39,7 +41,16 @@ namespace test_auntefication.Controllers
 
             return View(InfoUser);
         }
-        public ViewResult ListRole() => View(roleManager.Roles.ToList());
+        [Authorize(Roles ="Admin")]
+        public ViewResult AddTabacos() => View();
 
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
+        public IActionResult AddTabacos(string Name)
+        {
+            Tabacos taba = new Tabacos { Name = Name };
+            tabacosRepository.AddTabaco(taba);
+            return View("TabacoList", tabacosRepository.Tabacos);
+        }
     }
 }

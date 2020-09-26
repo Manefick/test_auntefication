@@ -35,6 +35,12 @@ namespace test_auntefication
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ProductsDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration["Products:ConnectionStrings"]));
+            services.AddTransient<ITabacosRepository, EFTabacosRepository>();
+
             services.AddIdentity<AppUser,IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;

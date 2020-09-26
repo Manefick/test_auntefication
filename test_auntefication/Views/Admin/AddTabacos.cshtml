@@ -1,0 +1,12 @@
+﻿@model string
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Add Tobaco</h4></div>
+
+<div class="text-danger" asp-validation-summary="All"></div>
+
+<form asp-action="AddTabacos" method="post">
+    <label>Name:</label><br />
+    <input type="text" name="Name" /><br />
+    <button class="btn btn-primary" type="submit">Create</button>
+    <a asp-action="Index" class="btn btn-primary">Cancel</a>
+</form>

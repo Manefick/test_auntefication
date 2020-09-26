@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Tabacos> 
+@{ Layout = null;}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List of tabaco</title>
+</head>
+<body>
+    @foreach(Tabacos tabacos in Model)
+    {
+        <p>@tabacos.Name</p>
+    }
+</body>
+</html>
