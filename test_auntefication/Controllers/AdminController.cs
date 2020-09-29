@@ -54,5 +54,15 @@ namespace test_auntefication.Controllers
         }
         [Authorize(Roles = "Admin")]
         public ViewResult RegistCompany() => View();
+
+        [Authorize(Roles ="Admin")]
+        [HttpPost]
+        public IActionResult RegistCompany(string companyName)
+        {
+            UserCompany us = new UserCompany { };
+            Company company = new Company { Name = companyName };
+            UserCompany userCompany = new UserCompany { CompanyId = company.Id, Company = company };
+            return View();
+        }
     }
 }

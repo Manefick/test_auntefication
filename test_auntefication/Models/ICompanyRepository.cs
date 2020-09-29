@@ -8,5 +8,6 @@ namespace test_auntefication.Models
     public interface ICompanyRepository
     {
         IQueryable<Company> Company { get; }
+        void Add(Company company);
     }
 }
