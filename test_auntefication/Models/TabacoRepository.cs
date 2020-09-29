@@ -14,13 +14,13 @@ namespace test_auntefication.Models
         {
             _context = context;
         }
-        public IQueryable<Tabaco> Tabacos => _context.Tabacos;
+        public IQueryable<Tabaco> Tabacos => _context.Tabaco;
 
         public void AddTabaco(Tabaco tabac)
         {
             if(tabac != null)
             {
-                _context.Tabacos.Add(tabac);
+                _context.Tabaco.Add(tabac);
             }
 
             _context.SaveChanges();

@@ -16,5 +16,6 @@ namespace test_auntefication.Data
         public DbSet<Company> Company { get; set; }
         public DbSet<CompanyStock> CompanyStock { get; set; }
         public DbSet<WorkStock> WorkStock { get; set; }
+        public DbSet<UserCompany> UserCompany { get; set; }
     }
 }

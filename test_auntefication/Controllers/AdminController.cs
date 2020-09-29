@@ -52,5 +52,7 @@ namespace test_auntefication.Controllers
             tabacosRepository.AddTabaco(taba);
             return View("TabacoList", tabacosRepository.Tabacos);
         }
+        [Authorize(Roles = "Admin")]
+        public ViewResult RegistCompany() => View();
     }
 }

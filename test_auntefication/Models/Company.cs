@@ -11,5 +11,6 @@ namespace test_auntefication.Models
         public string Name { get; set; }
         public ICollection<CompanyStock> CompanyStocks { get; set; }
         public ICollection<WorkStock> WorkStocks { get; set; }
+        public ICollection<UserCompany> UserCompany { get; set; }
     }
 }

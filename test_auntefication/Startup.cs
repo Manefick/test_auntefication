@@ -44,6 +44,7 @@ namespace test_auntefication
             services.AddTransient<ICompanyRepository, EFCompanyRepository>();
             services.AddTransient<IWorkStockRepository, WorkStockRepository>();
             services.AddTransient<ICompanyStockRepository, CompanyStockRepository>();
+            services.AddTransient<IUserCompanyRepository, UserCompanyRepository>();
 
 
             services.AddIdentity<AppUser,IdentityRole>(opts =>

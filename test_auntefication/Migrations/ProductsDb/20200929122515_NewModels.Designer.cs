@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test_auntefication.Data;
 
 namespace test_auntefication.Migrations.ProductsDb
 {
     [DbContext(typeof(ProductsDbContext))]
-    partial class ProductsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200929122515_NewModels")]
+    partial class NewModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,23 +69,6 @@ namespace test_auntefication.Migrations.ProductsDb
                     b.ToTable("Tabaco");
                 });
 
-            modelBuilder.Entity("test_auntefication.Models.UserCompany", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("UserCompany");
-                });
-
             modelBuilder.Entity("test_auntefication.Models.WorkStock", b =>
                 {
                     b.Property<int>("Id")
@@ -117,14 +102,6 @@ namespace test_auntefication.Migrations.ProductsDb
                     b.HasOne("test_auntefication.Models.Tabaco", "Tabaco")
                         .WithMany("CompanyStocks")
                         .HasForeignKey("TabacoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("test_auntefication.Models.UserCompany", b =>
-                {
-                    b.HasOne("test_auntefication.Models.Company", "Company")
-                        .WithMany("UserCompany")
-                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
