@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +41,10 @@ namespace test_auntefication
                 options.UseSqlServer(
                     Configuration["Products:ConnectionStrings"]));
             services.AddTransient<ITabacosRepository, TabacoRepository>();
+            services.AddTransient<ICompanyRepository, EFCompanyRepository>();
+            services.AddTransient<IWorkStockRepository, WorkStockRepository>();
+            services.AddTransient<ICompanyStockRepository, CompanyStockRepository>();
+
 
             services.AddIdentity<AppUser,IdentityRole>(opts =>
             {
