@@ -14,5 +14,13 @@ namespace test_auntefication.Models
             context = cxt;
         }
         public IQueryable<WorkStock> WorkStock => context.WorkStock;
+        public void AddWorkStock(WorkStock workStock)
+        {
+            if (workStock != null)
+            {
+                context.WorkStock.Add(workStock);
+            }
+            context.SaveChanges();
+        }
     }
 }

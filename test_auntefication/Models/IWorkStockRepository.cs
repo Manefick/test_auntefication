@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace test_auntefication.Models
 {
-    interface IWorkStockRepository
+    public interface IWorkStockRepository
     {
         IQueryable<WorkStock> WorkStock { get; }
+        void AddWorkStock(WorkStock workStock);
     }
 }

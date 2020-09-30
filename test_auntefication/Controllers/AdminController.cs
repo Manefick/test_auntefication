@@ -14,12 +14,21 @@ namespace test_auntefication.Controllers
     {
         private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
-        private ITabacosRepository tabacosRepository; 
-        public AdminController(UserManager<AppUser> usrMng, RoleManager<IdentityRole> roleMng, ITabacosRepository tabacos)
+        private ITabacosRepository tabacosRepository;
+        private ICompanyRepository companyRepository;
+        private ICompanyStockRepository companyStockRepository;
+        private IWorkStockRepository workStockRepository;
+        private IUserCompanyRepository userCompanyRepository;
+        public AdminController(UserManager<AppUser> usrMng, RoleManager<IdentityRole> roleMng, ITabacosRepository tabacos, 
+            ICompanyRepository cr, ICompanyStockRepository csr, IWorkStockRepository wsr, IUserCompanyRepository ucr)
         {
             userManager = usrMng;
             roleManager = roleMng;
             tabacosRepository = tabacos;
+            companyRepository = cr;
+            companyStockRepository = csr;
+            workStockRepository = wsr;
+            userCompanyRepository = ucr;
         }
         [Authorize]
         public async Task<IActionResult> Index()
@@ -55,14 +64,35 @@ namespace test_auntefication.Controllers
         [Authorize(Roles = "Admin")]
         public ViewResult RegistCompany() => View();
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult RegistCompany(string companyName)
+        public async Task<IActionResult> RegistCompany(ViewRegistrCompany details)
         {
-            UserCompany us = new UserCompany { };
-            Company company = new Company { Name = companyName };
-            UserCompany userCompany = new UserCompany { CompanyId = company.Id, Company = company };
-            return View();
+            Company company = new Company { Name = details.CompanyName };
+            companyRepository.Add(company);
+
+            CompanyStock companyStock = new CompanyStock
+            {
+                Company = company,
+                TabacoName = details.TabacoNameSt,
+                TabacoBundleWeigh = details.TabacoBundleWeithSt,
+                TabacoCount = details.TabacoCountSt
+            };
+            companyStockRepository.AddCompStock(companyStock);
+
+            WorkStock workStock = new WorkStock
+            {
+                Company = company,
+                NameTabaco = details.WSTabacoName,
+                TabacoWeigh = details.WSTabacoWeigth
+            };
+            AppUser appUser = await userManager.FindByNameAsync(details.UserName);
+            if(appUser != null)
+            {
+                //почему у меня id передаеться в формате строки и нужно ли в моделях переформатировать id в строку
+                UserCompany userCompany = new UserCompany { Company = company, UserId = Convert.ToInt32(appUser.Id) };
+            }
+            return View("Index");
         }
     }
 }

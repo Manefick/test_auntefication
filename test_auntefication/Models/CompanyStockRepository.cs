@@ -14,5 +14,13 @@ namespace test_auntefication.Models
             productsDb = cxt;
         }
         public IQueryable<CompanyStock> CompanyStock => productsDb.CompanyStock;
+        public void AddCompStock(CompanyStock company)
+        {
+            if (company != null)
+            {
+                productsDb.CompanyStock.Add(company);
+            }
+            productsDb.SaveChanges();
+        }
     }
 }

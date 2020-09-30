@@ -14,5 +14,13 @@ namespace test_auntefication.Models
             context = cnt;
         }
         public IQueryable<UserCompany> UserCompany => context.UserCompany;
+        public void AddUserCompany(UserCompany userCompany)
+        {
+            if (userCompany != null)
+            {
+                context.UserCompany.Add(userCompany);
+            }
+            context.SaveChanges();
+        }
     }
 }

@@ -16,7 +16,10 @@ namespace test_auntefication.Models
         public IQueryable<Company> Company => productsDb.Company;
         public void Add(Company company)
         {
-            productsDb.Company.Add(company);
+            if (company != null)
+            {
+                productsDb.Company.Add(company);
+            }
             productsDb.SaveChanges();
         }
     }
