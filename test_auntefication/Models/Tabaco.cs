@@ -9,7 +9,5 @@ namespace test_auntefication.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<CompanyStock> CompanyStocks { get; set; }
-        public ICollection<WorkStock> WorkStocks { get; set; }
     }
 }

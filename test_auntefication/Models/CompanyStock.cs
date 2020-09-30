@@ -8,12 +8,10 @@ namespace test_auntefication.Models
     public class CompanyStock
     {
         public int Id { get; set; }
-        public int TabacoId { get; set; }
         public string TabacoName { get; set; }
         public int TabacoBundleWeigh { get; set; }
         public int TabacoCount { get; set; }
         public int CompanyId { get; set; }
         public Company Company { get; set; }
-        public Tabaco Tabaco { get; set; }
     }
 }

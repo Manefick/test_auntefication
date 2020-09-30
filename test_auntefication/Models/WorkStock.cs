@@ -9,10 +9,8 @@ namespace test_auntefication.Models
     {
         public int Id { get; set; }
         public string NameTabaco { get; set; }
-        public int TabacoId { get; set; }
         public int TabacoWeigh { get; set; }
         public int CompanyId { get; set; }
         public Company Company { get; set; }
-        public Tabaco Tabaco { get; set; }
     }
 }

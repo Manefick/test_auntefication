@@ -91,6 +91,7 @@ namespace test_auntefication.Controllers
             {
                 //почему у меня id передаеться в формате строки и нужно ли в моделях переформатировать id в строку
                 UserCompany userCompany = new UserCompany { Company = company, UserId = Convert.ToInt32(appUser.Id) };
+                userCompanyRepository.AddUserCompany(userCompany);
             }
             return View("Index");
         }

@@ -1,0 +1,33 @@
+﻿@model ViewRegistrCompany
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Registration Company</h4></div>
+<div asp-validation-summary=" All" class="text-danger"></div>
+<form asp-action="RegistCompany" method="post">
+    <input type="hidden" asp-for="UserName" value="@User.Identity.Name" />
+    <div class="form-group">
+        <label asp-for="CompanyName"></label>
+        <input asp-for="CompanyName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoNameSt"></label>
+        <input asp-for="TabacoNameSt" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoBundleWeithSt"></label>
+        <input asp-for="TabacoBundleWeithSt" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoCountSt"></label>
+        <input asp-for="TabacoCountSt" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="WSTabacoName"></label>
+        <input asp-for="WSTabacoName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="WSTabacoWeigth"></label>
+        <input asp-for="WSTabacoWeigth" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
