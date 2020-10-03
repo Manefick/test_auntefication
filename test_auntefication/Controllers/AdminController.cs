@@ -86,14 +86,14 @@ namespace test_auntefication.Controllers
                 NameTabaco = details.WSTabacoName,
                 TabacoWeigh = details.WSTabacoWeigth
             };
+            workStockRepository.AddWorkStock(workStock);
             AppUser appUser = await userManager.FindByNameAsync(details.UserName);
             if(appUser != null)
             {
-                //почему у меня id передаеться в формате строки и нужно ли в моделях переформатировать id в строку
-                UserCompany userCompany = new UserCompany { Company = company, UserId = Convert.ToInt32(appUser.Id) };
+                UserCompany userCompany = new UserCompany { Company = company, UserId = appUser.Id };
                 userCompanyRepository.AddUserCompany(userCompany);
             }
-            return View("Index");
+            return RedirectToAction("RegisterUser","Account");
         }
     }
 }

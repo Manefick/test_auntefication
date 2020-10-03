@@ -14,11 +14,14 @@ namespace test_auntefication.Controllers
         private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
         private SignInManager<AppUser> signInManager;
-        public AccountController(UserManager<AppUser> userMeng, RoleManager<IdentityRole> roleM, SignInManager<AppUser> signIn)
+        private IUserCompanyRepository userCompanyRepository;
+        public AccountController(UserManager<AppUser> userMeng, RoleManager<IdentityRole> roleM, SignInManager<AppUser> signIn,
+            IUserCompanyRepository ucrep)
         {
             userManager = userMeng;
             roleManager = roleM;
             signInManager = signIn;
+            userCompanyRepository = ucrep;
         }
         [AllowAnonymous]
         public ViewResult Index()
@@ -82,7 +85,7 @@ namespace test_auntefication.Controllers
                     if (resultRole.Succeeded)
                     {
                         await signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("RegisterUser");
+                        return RedirectToAction("RegistCompany", "Admin");
                     }
                     else
                     {
@@ -122,6 +125,7 @@ namespace test_auntefication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterUser(UserViewModelTwo model)
         {
+            AppUser AdminUser = await userManager.FindByNameAsync(User.Identity.Name);
             if (ModelState.IsValid)
             {
                 AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
@@ -135,6 +139,7 @@ namespace test_auntefication.Controllers
                     IdentityResult resultRole = await userManager.AddToRoleAsync(user, "User");
                     if (resultRole.Succeeded)
                     {
+                        userCompanyRepository.AddUserToCompany(AdminUser.Id);
                         return RedirectToAction("Index", "Home");
                     }
                     else

@@ -22,5 +22,19 @@ namespace test_auntefication.Models
             }
             context.SaveChanges();
         }
+        public void AddUserToCompany(string UserId)
+        {
+            
+            var res = context.UserCompany.Where(p => p.UserId == UserId).Select(userCompany=>userCompany.Company).ToList();
+            //UserCompany newUser = new UserCompany { Company = res.FirstOrDefault().Company, UserId = user.Id };
+            if(res != null)
+            {
+                UserCompany userCompanies = new UserCompany { Company = res.FirstOrDefault(), UserId = UserId };
+                context.UserCompany.Add(userCompanies);
+            }
+            context.SaveChanges();
+        }
+        
     }
 }
+ 
