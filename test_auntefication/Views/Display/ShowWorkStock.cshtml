@@ -1,0 +1,15 @@
+﻿@model List<WorkStock>
+<div class="bg-primary m-1 p-1 text-white"><h4>Work Stock</h4></div>
+<table>
+    <tr><th>Name Tabaco</th><th>Tabaco Weigth</th><th>CompanyId</th></tr>
+    @foreach (WorkStock workStock in Model)
+    {
+        <tr>
+            <td>@workStock.NameTabaco</td>
+            <td>@workStock.TabacoWeigh</td>
+            <td>@workStock.CompanyId</td>
+
+        </tr>
+    }
+    }
+</table>

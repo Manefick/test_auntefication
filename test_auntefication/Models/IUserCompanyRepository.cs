@@ -9,6 +9,7 @@ namespace test_auntefication.Models
     {
         IQueryable<UserCompany> UserCompany { get; }
         void AddUserCompany(UserCompany userCompany);
-        void AddUserToCompany(string UserId);
+        void AddUserToCompany(string AdminId, string UserId);
+        Company CompanyToUser(string id);
     }
 }

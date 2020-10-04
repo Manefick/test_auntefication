@@ -22,5 +22,11 @@ namespace test_auntefication.Models
             }
             context.SaveChanges();
         }
+        public List<WorkStock> DisplayWorkStock(Company company)
+        {
+
+            var result = context.WorkStock.Where(p => p.Company == company).ToList();
+            return result;
+        }
     }
 }

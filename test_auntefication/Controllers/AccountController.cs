@@ -139,7 +139,7 @@ namespace test_auntefication.Controllers
                     IdentityResult resultRole = await userManager.AddToRoleAsync(user, "User");
                     if (resultRole.Succeeded)
                     {
-                        userCompanyRepository.AddUserToCompany(AdminUser.Id);
+                        userCompanyRepository.AddUserToCompany(AdminUser.Id, user.Id);
                         return RedirectToAction("Index", "Home");
                     }
                     else
