@@ -17,4 +17,10 @@ namespace test_auntefication.Models
         public int WSTabacoWeigth { get; set; }
 
     }
+    public class ViewAddTabacoToStock
+    {
+        public string TabacoName { get; set; }
+        public int TabacoBundleWeigh { get; set; }
+        public int TabacoCount { get; set; }
+    }
 }

@@ -1,0 +1,42 @@
+﻿@model ViewAddTabacoToStock
+<div class="bg-primary m-1 p-1 text-white"><h4>Добавление табака на склад</h4></div>
+<form asp-action="AddTabacoToStock" method="post">
+    <div class="form-group">
+        <label asp-for="TabacoName"></label>
+        <input asp-for="TabacoName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoBundleWeigh"></label>
+        <input asp-for="TabacoBundleWeigh" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoCount"></label>
+        <input asp-for="TabacoCount" class="form-control" />
+    </div>
+    @*<div class="form-group">
+        <label asp-for="TabacoName"></label>
+        <input asp-for="TabacoName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoBundleWeigh"></label>
+        <input asp-for="TabacoBundleWeigh" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoCount"></label>
+        <input asp-for="TabacoCount" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoName"></label>
+        <input asp-for="TabacoName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoBundleWeigh"></label>
+        <input asp-for="TabacoBundleWeigh" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoCount"></label>
+        <input asp-for="TabacoCount" class="form-control" />
+    </div>*@
+    <button type="submit" class="btn btn-primary">Добавить</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
