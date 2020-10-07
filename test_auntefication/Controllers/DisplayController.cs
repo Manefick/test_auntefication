@@ -16,17 +16,26 @@ namespace test_auntefication.Controllers
         private UserManager<AppUser> userManager;
         private IWorkStockRepository workStockRepository;
         private IUserCompanyRepository userCompanyRepository;
-        public DisplayController(UserManager<AppUser> usrMng, IWorkStockRepository wsr, IUserCompanyRepository ucr)
+        private ICompanyStockRepository companyStockRepository;
+        public DisplayController(UserManager<AppUser> usrMng, IWorkStockRepository wsr, IUserCompanyRepository ucr, 
+            ICompanyStockRepository cmpnrep)
         {
             userManager = usrMng;
             workStockRepository = wsr;
             userCompanyRepository = ucr;
+            companyStockRepository = cmpnrep;
         }
         public async Task<IActionResult> ShowWorkStock()
         {
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             var result = workStockRepository.DisplayWorkStock(userCompanyRepository.CompanyToUser(user.Id));
 
+            return View(result);
+        }
+        public async Task<IActionResult> ShowStock()
+        {
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var result = companyStockRepository.DisplayCompanyStock(userCompanyRepository.CompanyToUser(user.Id));
             return View(result);
         }
     }

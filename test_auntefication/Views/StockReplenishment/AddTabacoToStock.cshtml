@@ -1,5 +1,7 @@
 ﻿@model ViewAddTabacoToStock
 <div class="bg-primary m-1 p-1 text-white"><h4>Добавление табака на склад</h4></div>
+<div asp-validation-summary=" All" class="text-danger"></div>
+
 <form asp-action="AddTabacoToStock" method="post">
     <div class="form-group">
         <label asp-for="TabacoName"></label>

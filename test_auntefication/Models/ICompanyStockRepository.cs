@@ -9,5 +9,10 @@ namespace test_auntefication.Models
     {
         IQueryable<CompanyStock> CompanyStock { get; }
         void AddCompStock(CompanyStock company);
+        void AddCompStocks(IEnumerable<CompanyStock> companyStocks);
+        List<CompanyStock> DisplayCompanyStock(Company company);
+        void EditCompanyStock(CompanyStock companyStock);
+
+
     }
 }

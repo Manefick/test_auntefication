@@ -22,5 +22,23 @@ namespace test_auntefication.Models
             }
             productsDb.SaveChanges();
         }
+        public void AddCompStocks(IEnumerable<CompanyStock> companyStocks)
+        {
+            if (companyStocks != null)
+            {
+                productsDb.CompanyStock.AddRange(companyStocks);
+            }
+            productsDb.SaveChanges();
+        }
+        public void EditCompanyStock(CompanyStock companyStock)
+        {
+            productsDb.Entry(companyStock).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            productsDb.SaveChanges();
+        }
+        public List<CompanyStock> DisplayCompanyStock(Company company)
+        {
+            var result = productsDb.CompanyStock.Where(p => p.Company == company).ToList();
+            return result;
+        }
     }
 }
