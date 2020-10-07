@@ -1,0 +1,22 @@
+﻿@model AddTabacoToWorkStock
+
+<form asp-action="AddTabacoToWorkStock" method="post">
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Выберите табак и фасовку</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+            @foreach (CompanyStock companyStock in Model.CompanyStock)
+            {
+                <option>@companyStock.TabacoName @companyStock.TabacoBundleWeigh @companyStock.Id</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoWeigth">Введите количество взятых пачек</label>
+        <input asp-for="TabacoWeigth" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoWeigth">Введите количество принятого табака в граммах</label>
+        <input asp-for="TabacoWeigth" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Принять</button>
+</form>

@@ -74,5 +74,13 @@ namespace test_auntefication.Controllers
             
             return RedirectToAction("ShowStock", "Display");
         }
+        public async Task<IActionResult> AddTabacoToWorkStock()
+        {
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            var result = companyStockRepository.DisplayCompanyStock(userCompanyRepository.CompanyToUser(user.Id));
+            return View(new AddTabacoToWorkStock {CompanyStock = result});
+        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddTabacoToWorkStock()
     }
 }
