@@ -28,5 +28,6 @@ namespace test_auntefication.Models
             var result = context.WorkStock.Where(p => p.Company == company).ToList();
             return result;
         }
+
     }
 }

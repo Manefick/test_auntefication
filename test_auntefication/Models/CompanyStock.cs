@@ -13,5 +13,6 @@ namespace test_auntefication.Models
         public int TabacoCount { get; set; }
         public int CompanyId { get; set; }
         public Company Company { get; set; }
+        
     }
 }

@@ -37,7 +37,7 @@ namespace test_auntefication.Models
         }
         public List<CompanyStock> DisplayCompanyStock(Company company)
         {
-            var result = productsDb.CompanyStock.Where(p => p.Company == company).ToList();
+            var result = productsDb.CompanyStock.Where(p => p.CompanyId == company.Id).ToList();
             return result;
         }
     }
