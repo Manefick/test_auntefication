@@ -1,0 +1,16 @@
+﻿@model ViewRedisCount
+    <form asp-action="RedisCount" method="post">
+        <div class="form-group">
+            <label asp-for="FinalTabacoWeigh">Введите общий вес табака</label>
+            <input asp-for="FinalTabacoWeigh" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CountHookah">Введите количество сделаных кальянов</label>
+            <input asp-for="CountHookah" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Gramovka">Введите количество грамм табака на один кальян</label>
+            <input asp-for="Gramovka" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Принять</button>
+    </form>

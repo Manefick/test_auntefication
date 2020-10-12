@@ -44,4 +44,14 @@ namespace test_auntefication.Models
         public string Info => $"{TabacoName}  {TabacoBundleWeigh} Остаток на складе:{TabacoCount}";
 
     }
+    public class ViewRedisCount
+    {
+        public int Gramovka { get; set; }
+        public int CountHookah { get; set; }
+        public int FinalTabacoWeigh { get; set; }
+    }
+    public class ViewResultRediscount
+    {
+        public int Result { get; set; }
+    }
 }
