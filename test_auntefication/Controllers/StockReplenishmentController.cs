@@ -86,7 +86,7 @@ namespace test_auntefication.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTabacoToWorkStock(AddTabacoToWorkStock details)
         {
-            //добавить вылезающие ошибки при вводе некоректной инфи , прописать фасовку в выборе табака на прием
+            //добавить вылезающие ошибки при вводе некоректной инфи
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             Company companyUser = userCompanyRepository.CompanyToUser(user.Id);
             CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(companyUser)
@@ -99,7 +99,8 @@ namespace test_auntefication.Controllers
                 {
                     Company = companyStock.Company,
                     NameTabaco = companyStock.TabacoName,
-                    TabacoWeigh = details.TabacoWeigth
+                    TabacoWeigh = details.TabacoWeigth,
+                    Data = DateTime.Now
                 });
             }
             return RedirectToAction("ShowWorkStock", "Display");

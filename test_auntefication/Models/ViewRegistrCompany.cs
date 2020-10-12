@@ -41,7 +41,7 @@ namespace test_auntefication.Models
         public int TabacoBundleWeigh { get; set; }
         public int TabacoCount { get; set; }
         public int CompanyId { get; set; }
-        public string Info => $"{TabacoName}  {TabacoBundleWeigh}";
+        public string Info => $"{TabacoName}  {TabacoBundleWeigh} Остаток на складе:{TabacoCount}";
 
     }
 }

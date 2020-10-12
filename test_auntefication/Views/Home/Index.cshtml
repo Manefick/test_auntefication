@@ -1,5 +1,4 @@
 ﻿
-
 @if (User.Identity.IsAuthenticated)
 {
     <p>@User.Identity.Name</p>
@@ -9,3 +8,8 @@
 <form method="post" asp-controller="Account" asp-action="LogOff">
     <input type="submit" value="Выход" />
 </form>
+<a class="btn btn-primary" asp-controller="StockReplenishment" role="button" asp-action="AddTabacoToStock">Добавить табак на склад</a>
+<a class="btn btn-primary" asp-controller="StockReplenishment" role="button" asp-action="AddTabacoToWorkStock">Принять табак</a>
+<a class="btn btn-primary" asp-controller="Display" role="button" asp-action="ShowStock">Склад</a>
+<a class="btn btn-primary" asp-controller="Display" role="button" asp-action="ShowWorkStock">Рабочка</a>
+
