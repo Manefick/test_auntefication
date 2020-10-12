@@ -29,9 +29,19 @@ namespace test_auntefication.Models
     }
     public class AddTabacoToWorkStock
     {
-        public IEnumerable<CompanyStock> CompanyStock { get; set; }
+        public IEnumerable<ViewCompanyStock> CompanyStock { get; set; }
         public int TabacoWeigth { get; set; }
         public int CountTabacoPack { get; set; }
         public int SelectedCompanyStock { get; set; }
+    }
+    public class ViewCompanyStock
+    {
+        public int Id { get; set; }
+        public string TabacoName { get; set; }
+        public int TabacoBundleWeigh { get; set; }
+        public int TabacoCount { get; set; }
+        public int CompanyId { get; set; }
+        public string Info => $"{TabacoName}  {TabacoBundleWeigh}";
+
     }
 }

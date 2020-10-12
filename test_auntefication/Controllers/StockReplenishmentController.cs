@@ -65,55 +65,44 @@ namespace test_auntefication.Controllers
             }
             return RedirectToAction("ShowStock", "Display");
         }
-        //[HttpPost]
-        //public async Task<IActionResult> AddTabacoToStock(ViewAddTabacoToStock details)
-        //{
-        //    AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
-        //    Company companyUser = userCompanyRepository.CompanyToUser(user.Id);
-        //    foreach(CompanyStock cs in companyStockRepository.DisplayCompanyStock(companyUser))
-        //    {
-        //        if(cs.TabacoName == details.TabacoName&& cs.TabacoBundleWeigh == details.TabacoBundleWeigh)
-        //        {
-        //            cs.TabacoCount = cs.TabacoCount + details.TabacoCount;
-        //            companyStockRepository.EditCompanyStock(cs);
-        //            return RedirectToAction("ShowStock", "Display");
-        //        }
-        //    }
-        //        CompanyStock newAddTab = new CompanyStock
-        //        {
-        //            TabacoName = details.TabacoName,
-        //            TabacoBundleWeigh = details.TabacoBundleWeigh,
-        //            TabacoCount = details.TabacoCount,
-        //            Company = companyUser
-        //        };
-        //        companyStockRepository.AddCompStock(newAddTab);
-
-
-        //    return RedirectToAction("ShowStock", "Display");
-        //}
         public async Task<IActionResult> AddTabacoToWorkStock()
         {
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
-            var result = companyStockRepository.DisplayCompanyStock(userCompanyRepository.CompanyToUser(user.Id));
-            return View(new AddTabacoToWorkStock {CompanyStock = result});
+            IEnumerable<CompanyStock> result = companyStockRepository.DisplayCompanyStock(userCompanyRepository.CompanyToUser(user.Id));
+            List<ViewCompanyStock> viewCompanyStocks = new List<ViewCompanyStock>();
+            foreach(var res in result)
+            {
+                viewCompanyStocks.Add(new ViewCompanyStock
+                {
+                    Id = res.Id,
+                    CompanyId = res.CompanyId,
+                    TabacoName = res.TabacoName,
+                    TabacoBundleWeigh = res.TabacoBundleWeigh,
+                    TabacoCount = res.TabacoCount
+                });
+            }
+            return View(new AddTabacoToWorkStock {CompanyStock = viewCompanyStocks});
         }
         [HttpPost]
         public async Task<IActionResult> AddTabacoToWorkStock(AddTabacoToWorkStock details)
         {
-            //AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
-            //Company companyUser = userCompanyRepository.CompanyToUser(user.Id);
-            var res = details.CompanyStock;
-            //CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(companyUser)
-            //    .Where(p => p.Id == details.CompanyStock.First().Id).FirstOrDefault();
-            //companyStock.TabacoCount -= details.CountTabacoPack;
-            //companyStockRepository.EditCompanyStock(companyStock);
-            //workStockRepository.AddWorkStock(new WorkStock
-            //{
-            //    Company = companyStock.Company,
-            //    NameTabaco = companyStock.TabacoName,
-            //    TabacoWeigh = details.TabacoWeigth
-            //});
-            return View("test", res);
+            //добавить вылезающие ошибки при вводе некоректной инфи , прописать фасовку в выборе табака на прием
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            Company companyUser = userCompanyRepository.CompanyToUser(user.Id);
+            CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(companyUser)
+                .Where(p => p.Id == details.SelectedCompanyStock).FirstOrDefault();
+            if (companyStock.TabacoCount > details.CountTabacoPack)
+            {
+                companyStock.TabacoCount -= details.CountTabacoPack;
+                companyStockRepository.EditCompanyStock(companyStock);
+                workStockRepository.AddWorkStock(new WorkStock
+                {
+                    Company = companyStock.Company,
+                    NameTabaco = companyStock.TabacoName,
+                    TabacoWeigh = details.TabacoWeigth
+                });
+            }
+            return RedirectToAction("ShowWorkStock", "Display");
         }
     }
 }
