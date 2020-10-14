@@ -30,26 +30,7 @@ namespace test_auntefication.Controllers
             workStockRepository = wsr;
             userCompanyRepository = ucr;
         }
-        [Authorize]
-        public async Task<IActionResult> Index()
-        {
-            Dictionary<string, Dictionary<string, string>> InfoUser = new Dictionary<string, Dictionary<string, string>>();
-            foreach (var user in userManager.Users)
-            {
-                if (await userManager.IsInRoleAsync(user, "Admin"))
-                {
-                    InfoUser[user.Id] = new Dictionary<string, string> {
-                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "Admin" } };
-                }
-                else if(await userManager.IsInRoleAsync(user, "User"))
-                {
-                    InfoUser[user.Id] = new Dictionary<string, string> {
-                            { "Name", user.UserName },{"Email" ,user.Email }, {"Id", user.Id}, { "Role", "User" } };
-                }
-            }
-
-            return View(InfoUser);
-        }
+        
         [Authorize(Roles ="Admin")]
         public ViewResult AddTabacos() => View();
 

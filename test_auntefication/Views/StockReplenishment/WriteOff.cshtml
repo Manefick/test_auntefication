@@ -1,0 +1,15 @@
+﻿@model AddTabacoToWorkStock
+
+<form asp-action="WriteOff" method="post">
+    <div class="form-group">
+        <label asp-for="SelectedCompanyStock">Выберите табак и фасовку</label>
+        <select class="form-control" asp-for="SelectedCompanyStock"
+                asp-items="@(new SelectList(Model.CompanyStock,"Id","Info"))">
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoWeigth">Введите количество списаного табака</label>
+        <input asp-for="TabacoWeigth" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Принять</button>
+</form>

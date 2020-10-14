@@ -105,5 +105,39 @@ namespace test_auntefication.Controllers
             }
             return RedirectToAction("ShowWorkStock", "Display");
         }
+        public async Task<IActionResult> WriteOff()
+        {
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            IEnumerable<CompanyStock> result = companyStockRepository.DisplayCompanyStock(userCompanyRepository.CompanyToUser(user.Id));
+            List<ViewCompanyStock> viewCompanyStocks = new List<ViewCompanyStock>();
+            foreach (var res in result)
+            {
+                viewCompanyStocks.Add(new ViewCompanyStock
+                {
+                    Id = res.Id,
+                    CompanyId = res.CompanyId,
+                    TabacoName = res.TabacoName,
+                    TabacoBundleWeigh = res.TabacoBundleWeigh,
+                    TabacoCount = res.TabacoCount
+                });
+            }
+            return View(new AddTabacoToWorkStock { CompanyStock = viewCompanyStocks });
+        }
+        [HttpPost]
+        public async Task<IActionResult> WriteOff(AddTabacoToWorkStock det)
+        {
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            Company company = userCompanyRepository.CompanyToUser(user.Id);
+            CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(company)
+                .Where(p => p.Id == det.SelectedCompanyStock).FirstOrDefault();
+            workStockRepository.AddWorkStock(new WorkStock
+            {
+                Company = company,
+                NameTabaco = companyStock.TabacoName,
+                TabacoWeigh = -det.TabacoWeigth,
+                Data = DateTime.Now
+            });
+            return RedirectToAction("ShowWorkStock", "Display");
+        }
     }
 }
