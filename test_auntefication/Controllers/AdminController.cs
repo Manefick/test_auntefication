@@ -76,5 +76,28 @@ namespace test_auntefication.Controllers
             }
             return RedirectToAction("RegisterUser","Account");
         }
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> EditWorkStock()
+        {//доработать віпадающий список с именем табака и фасовкой
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            Company company = userCompanyRepository.CompanyToUser(user.Id);
+            IEnumerable<WorkStock> workStock = workStockRepository.DisplayWorkStock(company).Where(p => p.NameTabaco != "REDISCOUNT");
+            List<ViewWorkStock> workStocksList = new List<ViewWorkStock>();
+            if (workStock != null)
+            {
+                foreach(WorkStock ws in workStock)
+                {
+                    workStocksList.Add(new ViewWorkStock
+                    {
+                        NameTabaco = ws.NameTabaco,
+                        Id = ws.Id,
+                        CompanyId = ws.CompanyId,
+                        Data = ws.Data,
+                        TabacoWeigh = ws.TabacoWeigh
+                    });
+                }
+            }
+            return View(new EditWorkStockView {workStocks = workStocksList });
+        }
     }
 }
