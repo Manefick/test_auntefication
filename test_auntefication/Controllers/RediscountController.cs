@@ -39,8 +39,9 @@ namespace test_auntefication.Controllers
             if (lastRediscount != null)
             {
                 int sumTabacoWeigh = workStockRepository.DisplayWorkStock(userCompanyRepository.CompanyToUser(user.Id)).Where(
-                    p => lastRediscount.Data < p.Data).Sum(p => p.TabacoWeigh);
-                int teorFinalTabacoWeigh = sumTabacoWeigh - details.CountHookah * details.Gramovka;
+                    p => lastRediscount.Data <= p.Data).Sum(p => p.TabacoWeigh);
+                int useTabaco = details.CountHookah * details.Gramovka;
+                int teorFinalTabacoWeigh = sumTabacoWeigh - useTabaco;
                 workStockRepository.AddWorkStock(new WorkStock
                 {
                     Company = lastRediscount.Company,
@@ -48,13 +49,26 @@ namespace test_auntefication.Controllers
                     TabacoWeigh = details.FinalTabacoWeigh,
                     Data = DateTime.Now
                 });
-                return View("ResultRediscount",sumTabacoWeigh);
+                if (teorFinalTabacoWeigh > details.FinalTabacoWeigh)
+                {
+                    int disadvantege = teorFinalTabacoWeigh - details.FinalTabacoWeigh;
+                    int disHookah = disadvantege / details.Gramovka;
+                    return View("ResultRediscount", new ViewResultRediscount {UsedTabaco = useTabaco,
+                    Disadvantage = disadvantege, DisadvantageHookah = disHookah} );
+
+                }
+                else
+                {
+                    int excess = details.FinalTabacoWeigh - teorFinalTabacoWeigh;
+                    return View("ResultRediscount", new ViewResultRediscount { UsedTabaco = useTabaco, Excess = excess });
+                }
 
             }
             else
             {
                 int sumTabacoWeigh = workStockRepository.DisplayWorkStock(userCompanyRepository.CompanyToUser(user.Id)).Sum(
                     p => p.TabacoWeigh);
+                int useTabaco = details.CountHookah * details.Gramovka;
                 workStockRepository.AddWorkStock(new WorkStock
                 {
                     Company = company,
@@ -62,9 +76,25 @@ namespace test_auntefication.Controllers
                     TabacoWeigh = details.FinalTabacoWeigh,
                     Data = DateTime.Now
                 });
-                int teorFinalTabacoWeigh = sumTabacoWeigh - details.CountHookah * details.Gramovka;
+                int teorFinalTabacoWeigh = sumTabacoWeigh - useTabaco;
 
-                return View("ResultRediscount", sumTabacoWeigh);
+                if (teorFinalTabacoWeigh > details.FinalTabacoWeigh)
+                {
+                    int disadvantege = teorFinalTabacoWeigh - details.FinalTabacoWeigh;
+                    int disHookah = disadvantege / details.Gramovka;
+                    return View("ResultRediscount", new ViewResultRediscount
+                    {
+                        UsedTabaco = useTabaco,
+                        Disadvantage = disadvantege,
+                        DisadvantageHookah = disHookah
+                    });
+
+                }
+                else
+                {
+                    int excess = details.FinalTabacoWeigh - teorFinalTabacoWeigh;
+                    return View("ResultRediscount", new ViewResultRediscount { UsedTabaco = useTabaco, Excess = excess });
+                }
             }
         }
 

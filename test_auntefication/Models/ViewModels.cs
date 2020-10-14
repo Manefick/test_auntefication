@@ -52,6 +52,9 @@ namespace test_auntefication.Models
     }
     public class ViewResultRediscount
     {
-        public int Result { get; set; }
+        public int UsedTabaco { get; set; }
+        public int Disadvantage { get; set; }
+        public int Excess { get; set; }
+        public int DisadvantageHookah { get; set; }
     }
 }
