@@ -60,16 +60,27 @@ namespace test_auntefication.Models
     public class ViewWorkStock
     {
         public int Id { get; set; }
-        public string NameTabaco { get; set; }
+        public string TabacoName { get; set; }
         public int TabacoWeigh { get; set; }
+        public string HookahMaster { get; set; }
+        public int CountTabacoPack { get; set; }
         public DateTime Data { get; set; }
         public int CompanyId { get; set; }
-        public string Info => $"{NameTabaco}  {TabacoWeigh}  {Data}";
+        public string Info => $"{TabacoName}  {TabacoWeigh}  {Data}";
+    }
+    public class ViewTabaco
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int TabacoBundleWeige { get; set; }
+        public string Info => $"{Name}  {TabacoBundleWeige}";
     }
     public class EditWorkStockView
     {
         public IEnumerable<ViewWorkStock> workStocks { get; set; }
-        public string TabacoName { get; set; }
+        public IEnumerable<ViewTabaco> Tabacos { get; set; }
+        public int TabacoId { get; set; }
+        public int TabacoBundleWeigth { get; set; }
         public int TabacoWeigth { get; set; }
         public int CountTabacoPack { get; set; }
         public int SelectedWorkStock { get; set; }

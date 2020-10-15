@@ -56,7 +56,7 @@ namespace test_auntefication.Controllers
                                 TabacoName = det.TabacoName,
                                 TabacoBundleWeigh = det.TabacoBundleWeigh,
                                 TabacoCount = det.TabacoCount,
-                                Company = companyUser
+                                Company = companyUser,
                             });
                         }
                     }
@@ -78,7 +78,8 @@ namespace test_auntefication.Controllers
                     CompanyId = res.CompanyId,
                     TabacoName = res.TabacoName,
                     TabacoBundleWeigh = res.TabacoBundleWeigh,
-                    TabacoCount = res.TabacoCount
+                    TabacoCount = res.TabacoCount,
+                    
                 });
             }
             return View(new AddTabacoToWorkStock {CompanyStock = viewCompanyStocks});
@@ -100,7 +101,9 @@ namespace test_auntefication.Controllers
                     Company = companyStock.Company,
                     NameTabaco = companyStock.TabacoName,
                     TabacoWeigh = details.TabacoWeigth,
-                    Data = DateTime.Now
+                    Data = DateTime.Now,
+                    HookahMaster = User.Identity.Name,
+                    CountTabacoPack = details.CountTabacoPack
                 });
             }
             return RedirectToAction("ShowWorkStock", "Display");
@@ -135,7 +138,8 @@ namespace test_auntefication.Controllers
                 Company = company,
                 NameTabaco = companyStock.TabacoName,
                 TabacoWeigh = -det.TabacoWeigth,
-                Data = DateTime.Now
+                Data = DateTime.Now,
+                HookahMaster = User.Identity.Name
             });
             return RedirectToAction("ShowWorkStock", "Display");
         }

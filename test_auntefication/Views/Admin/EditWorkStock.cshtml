@@ -2,14 +2,20 @@
 
     <form asp-action="EditWorkStock" method="post">
         <div class="form-group">
-            <label asp-for="SelectedWorkStock">Выберите запись что хотите изменить</label>
+            <label asp-for="SelectedWorkStock">Выберите запись которую хотите изменить</label>
             <select class="form-control" asp-for="SelectedWorkStock"
                     asp-items="@(new SelectList(Model.workStocks,"Id","Info"))">
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="TabacoName">Введите название табака</label>
-            <input asp-for="TabacoName" class="form-control" />
+            <label asp-for="TabacoId">Выберите бренд табака</label>
+            <select class="form-control" asp-for="TabacoId"
+                    asp-items="@(new SelectList(Model.Tabacos,"id","Name"))">
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="TabacoBundleWeigth">Введите фасовку пачки</label>
+            <input asp-for="TabacoBundleWeigth" class="form-control" />
         </div>
         <div class="form-group">
             <label asp-for="CountTabacoPack">Введите количество взятых пачек</label>

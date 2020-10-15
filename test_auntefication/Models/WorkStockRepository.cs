@@ -28,6 +28,10 @@ namespace test_auntefication.Models
             var result = context.WorkStock.Where(p => p.Company == company).ToList();
             return result;
         }
-
+        public void EditWorkStock(WorkStock workStock)
+        {
+            context.Entry(workStock).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+        }
     }
 }

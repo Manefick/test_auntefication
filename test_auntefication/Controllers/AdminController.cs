@@ -65,7 +65,8 @@ namespace test_auntefication.Controllers
             {
                 Company = company,
                 NameTabaco = details.WSTabacoName,
-                TabacoWeigh = details.WSTabacoWeigth
+                TabacoWeigh = details.WSTabacoWeigth,
+                HookahMaster= User.Identity.Name
             };
             workStockRepository.AddWorkStock(workStock);
             AppUser appUser = await userManager.FindByNameAsync(details.UserName);
@@ -78,9 +79,18 @@ namespace test_auntefication.Controllers
         }
         [Authorize(Roles ="Admin")]
         public async Task<IActionResult> EditWorkStock()
-        {//доработать віпадающий список с именем табака и фасовкой
+        {//доработать віпадающий список с именем табака и фасовкой добавить в модель табака поле фосовки
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             Company company = userCompanyRepository.CompanyToUser(user.Id);
+            IEnumerable<Tabaco> tabacos = tabacosRepository.Tabacos;
+            List<ViewTabaco> viewTabacos = new List<ViewTabaco>();
+            if (tabacos !=null)
+            {
+                foreach(Tabaco tb in tabacos)
+                {
+                    viewTabacos.Add(new ViewTabaco { Id = tb.Id, Name = tb.Name, TabacoBundleWeige = tb.NominalWeigth });
+                }
+            }
             IEnumerable<WorkStock> workStock = workStockRepository.DisplayWorkStock(company).Where(p => p.NameTabaco != "REDISCOUNT");
             List<ViewWorkStock> workStocksList = new List<ViewWorkStock>();
             if (workStock != null)
@@ -89,15 +99,52 @@ namespace test_auntefication.Controllers
                 {
                     workStocksList.Add(new ViewWorkStock
                     {
-                        NameTabaco = ws.NameTabaco,
+                        TabacoName = ws.NameTabaco,
                         Id = ws.Id,
                         CompanyId = ws.CompanyId,
                         Data = ws.Data,
-                        TabacoWeigh = ws.TabacoWeigh
+                        TabacoWeigh = ws.TabacoWeigh,
+                        CountTabacoPack = ws.CountTabacoPack,
+                        HookahMaster = ws.HookahMaster
                     });
                 }
             }
-            return View(new EditWorkStockView {workStocks = workStocksList });
+            return View(new EditWorkStockView {workStocks = workStocksList, Tabacos = viewTabacos });
+        }
+        [Authorize(Roles ="Admin")]
+        [HttpPost]
+        public async Task<IActionResult> EditWorkStock(EditWorkStockView details)
+        {
+            AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+            Company companyUser = userCompanyRepository.CompanyToUser(user.Id);
+            WorkStock workStock = workStockRepository.DisplayWorkStock(companyUser).Where(p => p.Id == details.SelectedWorkStock).
+                FirstOrDefault();
+            Tabaco tabaco = tabacosRepository.Tabacos.Where(x => x.Id == details.TabacoId).FirstOrDefault();
+            CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(companyUser)
+                .Where(p => string.Equals(p.TabacoName,workStock.NameTabaco)&&p.TabacoBundleWeigh==workStock.).FirstOrDefault();
+            if (workStock != null)
+            {
+                workStock.NameTabaco = tabaco.Name;
+                if (details.TabacoWeigth != 0)
+                {
+                    workStock.TabacoWeigh = details.TabacoWeigth;
+                }
+                workStockRepository.EditWorkStock(workStock);
+            }
+
+            if (companyStock.TabacoCount > details.CountTabacoPack)
+            {
+                companyStock.TabacoCount -= details.CountTabacoPack;
+                companyStockRepository.EditCompanyStock(companyStock);
+                workStockRepository.AddWorkStock(new WorkStock
+                {
+                    Company = companyStock.Company,
+                    NameTabaco = companyStock.TabacoName,
+                    TabacoWeigh = details.TabacoWeigth,
+                    Data = DateTime.Now
+                });
+            }
+            return RedirectToAction("ShowWorkStock", "Display");
         }
     }
 }
