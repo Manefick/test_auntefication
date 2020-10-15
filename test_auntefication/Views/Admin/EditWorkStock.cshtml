@@ -10,12 +10,8 @@
         <div class="form-group">
             <label asp-for="TabacoId">Выберите бренд табака</label>
             <select class="form-control" asp-for="TabacoId"
-                    asp-items="@(new SelectList(Model.Tabacos,"id","Name"))">
+                    asp-items="@(new SelectList(Model.Tabacos,"Id","Info"))">
             </select>
-        </div>
-        <div class="form-group">
-            <label asp-for="TabacoBundleWeigth">Введите фасовку пачки</label>
-            <input asp-for="TabacoBundleWeigth" class="form-control" />
         </div>
         <div class="form-group">
             <label asp-for="CountTabacoPack">Введите количество взятых пачек</label>

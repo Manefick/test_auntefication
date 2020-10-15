@@ -33,5 +33,10 @@ namespace test_auntefication.Models
             context.Entry(workStock).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
         }
+        public void DeleteWorkStock(WorkStock workStock)
+        {
+            context.Remove(workStock);
+            context.SaveChanges();
+        }
     }
 }

@@ -61,6 +61,7 @@ namespace test_auntefication.Models
     {
         public int Id { get; set; }
         public string TabacoName { get; set; }
+        public int BundleTabacoWeigh { get; set; }
         public int TabacoWeigh { get; set; }
         public string HookahMaster { get; set; }
         public int CountTabacoPack { get; set; }

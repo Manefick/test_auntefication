@@ -103,8 +103,8 @@ namespace test_auntefication.Controllers
                     TabacoWeigh = details.TabacoWeigth,
                     Data = DateTime.Now,
                     HookahMaster = User.Identity.Name,
-                    CountTabacoPack = details.CountTabacoPack
-                });
+                    CountTabacoPack = details.CountTabacoPack,
+                    BundleTabacoWeigh = companyStock.TabacoBundleWeigh                });
             }
             return RedirectToAction("ShowWorkStock", "Display");
         }

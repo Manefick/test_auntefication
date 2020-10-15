@@ -82,7 +82,7 @@ namespace test_auntefication.Controllers
         {//доработать віпадающий список с именем табака и фасовкой добавить в модель табака поле фосовки
             AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
             Company company = userCompanyRepository.CompanyToUser(user.Id);
-            IEnumerable<Tabaco> tabacos = tabacosRepository.Tabacos;
+            IEnumerable<Tabaco> tabacos = tabacosRepository.Tabacos.ToList();
             List<ViewTabaco> viewTabacos = new List<ViewTabaco>();
             if (tabacos !=null)
             {
@@ -121,28 +121,27 @@ namespace test_auntefication.Controllers
                 FirstOrDefault();
             Tabaco tabaco = tabacosRepository.Tabacos.Where(x => x.Id == details.TabacoId).FirstOrDefault();
             CompanyStock companyStock = companyStockRepository.DisplayCompanyStock(companyUser)
-                .Where(p => string.Equals(p.TabacoName,workStock.NameTabaco)&&p.TabacoBundleWeigh==workStock.).FirstOrDefault();
-            if (workStock != null)
+                .Where(p => string.Equals(p.TabacoName,workStock.NameTabaco)&&p.TabacoBundleWeigh==workStock.BundleTabacoWeigh)
+                .FirstOrDefault();
+            CompanyStock newCompanyStock = companyStockRepository.DisplayCompanyStock(companyUser).Where(p =>
+            string.Equals(p.TabacoName, tabaco.Name) && p.TabacoBundleWeigh == tabaco.NominalWeigth).FirstOrDefault();
+            if (workStock != null&&companyStock!=null&&newCompanyStock!=null)
             {
-                workStock.NameTabaco = tabaco.Name;
-                if (details.TabacoWeigth != 0)
-                {
-                    workStock.TabacoWeigh = details.TabacoWeigth;
-                }
-                workStockRepository.EditWorkStock(workStock);
-            }
-
-            if (companyStock.TabacoCount > details.CountTabacoPack)
-            {
-                companyStock.TabacoCount -= details.CountTabacoPack;
-                companyStockRepository.EditCompanyStock(companyStock);
+                workStockRepository.DeleteWorkStock(workStock);
                 workStockRepository.AddWorkStock(new WorkStock
                 {
-                    Company = companyStock.Company,
-                    NameTabaco = companyStock.TabacoName,
+                    Company = companyUser,
+                    NameTabaco = tabaco.Name,
+                    BundleTabacoWeigh = tabaco.NominalWeigth,
+                    CountTabacoPack = details.CountTabacoPack,
                     TabacoWeigh = details.TabacoWeigth,
-                    Data = DateTime.Now
+                    Data = DateTime.Now,
+                    HookahMaster = User.Identity.Name
                 });
+                companyStock.TabacoCount = companyStock.TabacoCount + workStock.CountTabacoPack;
+                companyStockRepository.EditCompanyStock(companyStock);
+                newCompanyStock.TabacoCount -= details.CountTabacoPack;
+                companyStockRepository.EditCompanyStock(newCompanyStock);
             }
             return RedirectToAction("ShowWorkStock", "Display");
         }
