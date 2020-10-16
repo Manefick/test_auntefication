@@ -86,4 +86,12 @@ namespace test_auntefication.Models
         public int CountTabacoPack { get; set; }
         public int SelectedWorkStock { get; set; }
     }
+    public  class EditStockView
+    {
+        public IEnumerable<ViewCompanyStock> companyStocks { get; set; }
+        public IEnumerable<ViewTabaco> Tabacos { get; set; }
+        public int TabacoId { get; set; }
+        public int SelectedCompanyStock { get; set; }
+        public int CountTabacoPack { get; set; }
+    }
 }

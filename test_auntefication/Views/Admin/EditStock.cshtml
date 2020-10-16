@@ -1,0 +1,21 @@
+﻿@model EditStockView
+
+<form asp-action="EditStock" method="post">
+    <div class="form-group">
+        <label asp-for="SelectedCompanyStock">Выберите запись которую хотите изменить</label>
+        <select class="form-control" asp-for="SelectedCompanyStock"
+                asp-items="@(new SelectList(Model.companyStocks,"Id","Info"))">
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="TabacoId">Выберите бренд табака и фасовку</label>
+        <select class="form-control" asp-for="TabacoId"
+                asp-items="@(new SelectList(Model.Tabacos,"Id","Info"))">
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="CountTabacoPack">Введите количество пачек</label>
+        <input asp-for="CountTabacoPack" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Принять</button>
+</form>
