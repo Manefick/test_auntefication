@@ -19,13 +19,13 @@ namespace test_auntefication.Models
     }
     public class ViewAddTabacoToStock
     {
-        public string TabacoName { get; set; }
-        public int TabacoBundleWeigh { get; set; }
+        public int TabacoId { get; set; }
         public int TabacoCount { get; set; }
     }
     public class ViewAddTabacoToStockList
     {
         public List<ViewAddTabacoToStock> tabacoToStocks { get; set; }
+        public IEnumerable<ViewTabaco> tabacos { get; set; }
     }
     public class AddTabacoToWorkStock
     {

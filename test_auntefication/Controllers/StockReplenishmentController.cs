@@ -13,21 +13,32 @@ namespace test_auntefication.Controllers
     [Authorize]
     public class StockReplenishmentController : Controller
     {
+        private ITabacosRepository tabacosRepository;
         private ICompanyStockRepository companyStockRepository;
         private UserManager<AppUser> userManager;
         private IUserCompanyRepository userCompanyRepository;
         private IWorkStockRepository workStockRepository;
         public StockReplenishmentController(ICompanyStockRepository companyStock, UserManager<AppUser> userMng,
-            IUserCompanyRepository userCompany, IWorkStockRepository workStock)
+            IUserCompanyRepository userCompany, IWorkStockRepository workStock, ITabacosRepository tb)
         {
             companyStockRepository = companyStock;
             userManager = userMng;
             userCompanyRepository = userCompany;
             workStockRepository = workStock;
+            tabacosRepository = tb;
         }
         public IActionResult AddTabacoToStock()
         {
-            return View();
+            IEnumerable<Tabaco> tabacos = tabacosRepository.Tabacos.ToList();
+            List<ViewTabaco> viewTabacos = new List<ViewTabaco>();
+            if (tabacos != null)
+            {
+                foreach (Tabaco tb in tabacos)
+                {
+                    viewTabacos.Add(new ViewTabaco { Id = tb.Id, Name = tb.Name, TabacoBundleWeige = tb.NominalWeigth });
+                }
+            }
+            return View(new ViewAddTabacoToStockList { tabacos = viewTabacos});
         }
         [HttpPost]
         public async Task<IActionResult> AddTabacoToStock(ViewAddTabacoToStockList details)
@@ -39,9 +50,10 @@ namespace test_auntefication.Controllers
             {
                 foreach (ViewAddTabacoToStock det in details.tabacoToStocks)
                 {
+                    Tabaco tabaco = tabacosRepository.Tabacos.Where(p => p.Id == det.TabacoId).FirstOrDefault();
                     CompanyStock repitCompStock = companyStockRepository.DisplayCompanyStock(companyUser).Where(
-                        p => String.Equals(p.TabacoName, det.TabacoName, StringComparison.OrdinalIgnoreCase) &&
-                        p.TabacoBundleWeigh == det.TabacoBundleWeigh).FirstOrDefault();
+                        p => String.Equals(p.TabacoName, tabaco.Name, StringComparison.OrdinalIgnoreCase) &&
+                        p.TabacoBundleWeigh == tabaco.NominalWeigth).FirstOrDefault();
                     if (repitCompStock != null)
                     {
                         repitCompStock.TabacoCount += det.TabacoCount;
@@ -49,12 +61,12 @@ namespace test_auntefication.Controllers
                     }
                     else
                     {
-                        if (det.TabacoName != null)
+                        if (tabaco.Name != null)
                         {
                             data.Add(new CompanyStock
                             {
-                                TabacoName = det.TabacoName,
-                                TabacoBundleWeigh = det.TabacoBundleWeigh,
+                                TabacoName = tabaco.Name,
+                                TabacoBundleWeigh = tabaco.NominalWeigth,
                                 TabacoCount = det.TabacoCount,
                                 Company = companyUser,
                             });

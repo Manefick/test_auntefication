@@ -6,12 +6,10 @@
     @for (int i = 0; i < 3; i++)
     {
         <div class="form-group">
-            <label asp-for="@Model.tabacoToStocks[i].TabacoName"></label>
-            <input asp-for="@Model.tabacoToStocks[i].TabacoName" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.tabacoToStocks[i].TabacoBundleWeigh"></label>
-            <input asp-for="@Model.tabacoToStocks[i].TabacoBundleWeigh" class="form-control" />
+            <label asp-for="@Model.tabacoToStocks[i].TabacoId">Выберите бренд табака и фасовку</label>
+            <select class="form-control" asp-for="@Model.tabacoToStocks[i].TabacoId"
+                    asp-items="@(new SelectList(Model.tabacos,"Id","Info"))">
+            </select>
         </div>
         <div class="form-group">
             <label asp-for="@Model.tabacoToStocks[i].TabacoCount"></label>
